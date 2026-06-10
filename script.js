@@ -103,3 +103,144 @@ function handleFormSubmit(event) {
   document.getElementById('inquiryForm').reset();
 }
 
+// Floating Kakao & Font Zoom Functions
+const kakaoBtn = document.getElementById('kakaoBtn');
+const kakaoTooltip = document.getElementById('kakaoTooltip');
+const zoomInBtn = document.getElementById('zoomInBtn');
+const zoomOutBtn = document.getElementById('zoomOutBtn');
+const zoomResetBtn = document.getElementById('zoomResetBtn');
+
+// Kakao Open Chat Link Click
+if (kakaoBtn) {
+  kakaoBtn.addEventListener('click', () => {
+    window.open('https://open.kakao.com/o/gXlVsxui-', '_blank');
+  });
+}
+
+// 3-second tooltip trigger
+window.addEventListener('load', () => {
+  if (kakaoTooltip) {
+    setTimeout(() => {
+      kakaoTooltip.classList.add('active');
+    }, 3000);
+  }
+});
+
+// Tooltip click to close
+if (kakaoTooltip) {
+  kakaoTooltip.addEventListener('click', () => {
+    kakaoTooltip.classList.remove('active');
+  });
+}
+
+// Text Resizing Logic
+let currentFontSize = 16; // default size in pixels
+
+function setBodyFontSize(size) {
+  document.documentElement.style.fontSize = `${size}px`;
+}
+
+if (zoomInBtn) {
+  zoomInBtn.addEventListener('click', () => {
+    if (currentFontSize < 24) {
+      currentFontSize += 2;
+      setBodyFontSize(currentFontSize);
+    }
+  });
+}
+
+if (zoomOutBtn) {
+  zoomOutBtn.addEventListener('click', () => {
+    if (currentFontSize > 12) {
+      currentFontSize -= 2;
+      setBodyFontSize(currentFontSize);
+    }
+  });
+}
+
+if (zoomResetBtn) {
+  zoomResetBtn.addEventListener('click', () => {
+    currentFontSize = 16;
+    setBodyFontSize(currentFontSize);
+  });
+}
+
+// Reviews Slider Logic
+const reviewsTrack = document.getElementById('reviewsTrack');
+const reviewSlides = document.querySelectorAll('.review-slide');
+const prevReviewBtn = document.getElementById('prevReviewBtn');
+const nextReviewBtn = document.getElementById('nextReviewBtn');
+const reviewDots = document.querySelectorAll('.slider-dots .dot');
+
+let currentSlideIndex = 0;
+let autoSlideInterval;
+
+function updateSliderPosition() {
+  if (reviewsTrack) {
+    reviewsTrack.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+  }
+  
+  // Update Dots
+  reviewDots.forEach((dot, index) => {
+    if (index === currentSlideIndex) {
+      dot.classList.add('active');
+    } else {
+      dot.classList.remove('active');
+    }
+  });
+}
+
+function nextSlide() {
+  currentSlideIndex = (currentSlideIndex + 1) % reviewSlides.length;
+  updateSliderPosition();
+}
+
+function prevSlide() {
+  currentSlideIndex = (currentSlideIndex - 1 + reviewSlides.length) % reviewSlides.length;
+  updateSliderPosition();
+}
+
+function startAutoSlide() {
+  stopAutoSlide();
+  autoSlideInterval = setInterval(nextSlide, 3000); // 3 seconds interval
+}
+
+function stopAutoSlide() {
+  if (autoSlideInterval) {
+    clearInterval(autoSlideInterval);
+  }
+}
+
+// Attach Event Listeners
+if (nextReviewBtn) {
+  nextReviewBtn.addEventListener('click', () => {
+    nextSlide();
+    startAutoSlide(); // Reset timer on manual click
+  });
+}
+
+if (prevReviewBtn) {
+  prevReviewBtn.addEventListener('click', () => {
+    prevSlide();
+    startAutoSlide(); // Reset timer on manual click
+  });
+}
+
+// Dot Indicators Click Events
+reviewDots.forEach(dot => {
+  dot.addEventListener('click', (e) => {
+    currentSlideIndex = parseInt(e.target.getAttribute('data-index'));
+    updateSliderPosition();
+    startAutoSlide(); // Reset timer on manual click
+  });
+});
+
+// Start auto slide on DOM Content Loaded
+window.addEventListener('DOMContentLoaded', () => {
+  if (reviewSlides.length > 0) {
+    startAutoSlide();
+  }
+});
+
+
+

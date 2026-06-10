@@ -735,68 +735,165 @@ header.scrolled nav {
   margin-bottom: 12px;
 }
 
-/* 5. Reviews Section */
+/* 5. Reviews Section (수강후기 슬라이더) */
 .reviews {
-  background-color: var(--white);
+  background-color: var(--primary); /* 딥퍼플 #4A1D96 */
 }
 
-.reviews-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-  margin-top: 50px;
+/* Sub-title badge in purple background */
+.reviews .tooltip-badge {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
-.review-card {
-  background-color: var(--bg-color);
-  padding: 40px;
+.slider-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.slider-container {
+  overflow: hidden;
+  width: 100%;
+  max-width: 620px;
   border-radius: var(--border-radius);
-  box-shadow: var(--shadow-sm);
-  border: none;
+}
+
+.slider-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.review-slide {
+  min-width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+.review-card-inner {
+  background-color: var(--white); /* 카드 배경 화이트 */
+  padding: 48px 40px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  text-align: center;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-}
-
-.review-card:hover {
-  background-color: var(--white);
-  box-shadow: var(--shadow-md);
+  align-items: center;
+  justify-content: center;
+  min-height: 250px;
 }
 
 .review-stars {
-  color: var(--accent);
-  font-size: 1.2rem;
+  color: var(--accent); /* 별점 골드 #F59E0B */
+  font-size: 1.4rem;
   margin-bottom: 20px;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
 }
 
 .review-text {
-  font-size: 1rem;
+  font-size: 1.15rem;
   font-style: italic;
-  margin-bottom: 30px;
-  position: relative;
+  font-weight: 500;
+  color: var(--text-main);
+  margin-bottom: 24px;
+  line-height: 1.6;
 }
 
-.review-user {
+.review-user-name {
+  color: var(--primary) !important; /* 이름 딥퍼플 */
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 1.05rem;
+  background-color: var(--secondary-light);
+  padding: 6px 16px;
+  border-radius: 50px;
+}
+
+/* Slider Arrows */
+.slider-arrow {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  position: absolute;
+  z-index: 10;
+}
+
+.slider-arrow:hover {
+  background-color: var(--white);
+  color: var(--primary);
+  box-shadow: var(--shadow-md);
+}
+
+.slider-arrow.prev {
+  left: -70px;
+}
+
+.slider-arrow.next {
+  right: -70px;
+}
+
+/* Dots Indicators */
+.slider-dots {
+  display: flex;
+  justify-content: center;
   gap: 12px;
+  margin-top: 30px;
 }
 
-.review-user span {
-  font-size: 2.8rem !important;
-  color: var(--secondary-light);
+.slider-dots .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: var(--transition);
 }
 
-.review-user h4 {
-  font-family: var(--font-sans);
-  font-size: 1rem;
-  font-weight: 700;
+.slider-dots .dot:hover {
+  background-color: rgba(255, 255, 255, 0.6);
 }
 
-.review-user p {
-  font-size: 0.85rem;
+.slider-dots .dot.active {
+  background-color: var(--white);
+  width: 24px;
+  border-radius: 5px;
 }
+
+/* Responsive Styles for Review Slider */
+@media (max-width: 768px) {
+  .slider-arrow {
+    position: static;
+    margin: 0 10px;
+  }
+  
+  .slider-wrapper {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  
+  .slider-container {
+    order: -1; /* Place container on top in flex wrap */
+    max-width: 100%;
+  }
+  
+  .slider-arrow.prev,
+  .slider-arrow.next {
+    position: static;
+  }
+}
+
 
 /* SNS Channels Section */
 .sns-channels {
@@ -1164,4 +1261,133 @@ footer {
     padding: 20px;
   }
 }
+
+/* Floating Widget Container */
+.floating-container {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px; /* Spacing between Kakao and Zoom widget */
+  z-index: 9999;
+}
+
+/* Kakao Consultation Wrap & Button */
+.kakao-floating-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.kakao-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 56px;
+  min-height: 56px;
+  height: 56px;
+  padding: 0 20px;
+  background-color: #FEE500;
+  color: #3C1E1E;
+  border: none;
+  border-radius: 50px;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: 0 8px 24px rgba(254, 229, 0, 0.35), 0 4px 12px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.kakao-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 28px rgba(254, 229, 0, 0.5), 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.kakao-icon {
+  font-size: 1.5rem !important;
+}
+
+.kakao-text {
+  white-space: nowrap;
+}
+
+/* 3-second Auto Tooltip */
+.kakao-tooltip {
+  position: absolute;
+  right: calc(100% + 12px);
+  background-color: #3C1E1E;
+  color: #FFFFFF;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transform: translateX(10px);
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.kakao-tooltip::after {
+  content: '';
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent transparent transparent #3C1E1E;
+}
+
+.kakao-tooltip.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto; /* Clickable to close */
+  cursor: pointer;
+}
+
+/* Font Zoom Controller */
+.zoom-floating-wrap {
+  display: flex;
+  background-color: var(--white);
+  border-radius: 50px;
+  padding: 4px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(74, 29, 150, 0.1);
+}
+
+.zoom-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background-color: transparent;
+  color: var(--primary);
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zoom-btn:hover {
+  background-color: var(--secondary-light);
+  color: var(--primary);
+}
+
+@media (max-width: 576px) {
+  .floating-container {
+    bottom: 20px;
+    right: 20px;
+  }
+}
+
 
